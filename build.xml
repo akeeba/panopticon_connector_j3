@@ -127,16 +127,30 @@
                 <!-- Remove duplicates and save the mostly minified file to the repo -->
                 <xmlupdate xml="${update.all}" tofile="${dirs.root}/updates/plg_system_panopticon.xml" />
 
-                <!-- Upload the update XML file to S3 as well -->
-                <exec executable="curl" passthru="true">
-                    <arg value="--ftp-create-dirs" />
-                    <arg value="--ftp-pasv" />
-                    <arg value="-T" />
-                    <arg value="${dirs.root}/updates/plg_system_panopticon.xml" />
-                    <arg value="ftp://${bunny.user}:${bunny.password}@${bunny.hostname}${bunny.dir}/plg_system_panopticon.xml" />
-                </exec>
+                <!-- Upload the update XML file to the CDN as well -->
+                <phingcall target="update_upload" />
             </then>
         </if>
+    </target>
+
+    <target name="update_upload">
+        <!-- curl -v -u username:pwd ftp://host/FileTodelete.xml -Q "DELE FileTodelete.xml" -->
+        <exec executable="curl" passthru="true">
+            <arg value="-v" />
+            <arg value="--ftp-pasv" />
+            <arg value="ftp://${bunny.user}:${bunny.password}@${bunny.hostname}${bunny.dir}/plg_system_panopticon.xml" />
+            <arg value="-Q" />
+            <arg value="DELE plg_system_panopticon.xml" />
+        </exec>
+
+        <exec executable="curl" passthru="true">
+            <arg value="-v" />
+            <arg value="--ftp-create-dirs" />
+            <arg value="--ftp-pasv" />
+            <arg value="-T" />
+            <arg value="${dirs.root}/updates/plg_system_panopticon.xml" />
+            <arg value="ftp://${bunny.user}:${bunny.password}@${bunny.hostname}${bunny.dir}/plg_system_panopticon.xml" />
+        </exec>
     </target>
 
     <!--
