@@ -13,8 +13,10 @@ class CoreChecksumPrepare extends AbstractController
 {
 	public function __invoke(\JInput $input): object
 	{
-		$version = JVERSION;
-
+		$version = explode('.', JVERSION);
+		array_walk($version, function(&$v) { $v = (int) $v; });
+		$version = implode('.', $version);
+		
 		$base = trim((string) $input->get('checksumsBaseUrl', '', 'raw'));
 
 		if ($base === '' || !preg_match('#^https?://#i', $base))
