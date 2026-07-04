@@ -216,7 +216,9 @@ class ExtensionInstall extends AbstractController
 		if (empty($extension))
 		{
 			$extension = '.zip';
-		} else {
+		} 
+		else 
+		{
 			// Remove randomized part of the extension
 			$extension = explode('-', $extension)[0];
 		}
