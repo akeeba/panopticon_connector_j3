@@ -4,12 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Build Commands
 
-The build system uses Apache Phing 3.x. The shared build infrastructure lives in `../buildfiles/phing/common.xml` (outside this repo).
-
-```bash
-# Full build (default target): version setup, packaging, update XML generation
-phing
-```
+Builds use Apache Phing 3.x — see the `akeeba-project-management:phing-build` skill for targets and configuration.
 
 The `version.php` file under `plugins/system/panopticon/` is **generated at build time** via token replacement (`##VERSION##`, `##DATE##`). It is gitignored — do not create or edit it manually.
 
